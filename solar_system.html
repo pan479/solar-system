@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太阳系探索者 - 发现宇宙的奥秘</title>
+    <style>
+        :root {
+            --space-blue: #0b3d91;
+            --star-yellow: #f5d76e;
+            --planet-orange: #e67e22;
+            --comet-teal: #1abc9c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            color: #fff;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 20%);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(to right, #000428, #004e92);
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, var(--star-yellow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 215, 110, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background-color: rgba(11, 61, 145, 0.8);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: var(--star-yellow);
+            color: var(--space-blue);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .hero img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(245, 215, 110, 0.3);
+        }
+
+        .planets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .planet-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .planet-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(245, 215, 110, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .planet-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .planet-info {
+            padding: 1.5rem;
+        }
+
+        .planet-info h3 {
+            color: var(--star-yellow);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .planet-info p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .planet-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .feature-section {
+            margin: 4rem 0;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .feature-section:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .feature-text {
+            flex: 1;
+        }
+
+        .feature-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .feature-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(30, 144, 255, 0.3);
+        }
+
+        footer {
+            background: linear-gradient(to right, #000428, #004e92);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .newsletter {
+            background: rgba(11, 61, 145, 0.3);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .newsletter input {
+            padding: 0.8rem;
+            width: 300px;
+            max-width: 100%;
+            border: none;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+
+        .newsletter button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--star-yellow);
+            color: var(--space-blue);
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter button:hover {
+            background-color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Solar System Simulator Styles */
+        .simulator-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        #solarSystemCanvas {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(30, 144, 255, 0.2);
+            cursor: pointer;
+            max-width: 100%;
+        }
+
+        .simulator-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .simulator-section h2 {
+            color: var(--star-yellow);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .feature-section {
+                flex-direction: column;
+            }
+
+            .feature-section:nth-child(even) {
+                flex-direction: column;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            #solarSystemCanvas {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>太阳系探索者</h1>
+        <p class="subtitle">发现我们宇宙家园的奥秘</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">首页</a></li>
+            <li><a href="#simulator">太阳系模拟器</a></li>
+            <li><a href="#planets">行星</a></li>
+            <li><a href="#sun">太阳</a></li>
+            <li><a href="#moons">卫星</a></li>
+            <li><a href="#asteroids">小行星带</a></li>
+            <li><a href="#missions">太空任务</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="home" class="hero">
+            <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.3TNhmLOfTXTCSir34nVkrAAAAA?rs=1&pid=ImgDetMain" alt="太阳系全景">
+            <h2>欢迎来到太阳系探索之旅</h2>
+            <p>探索我们太阳系的八大行星、无数卫星、矮行星、小行星和彗星</p>
+        </section>
+
+        <section id="simulator" class="simulator-section">
+            <h2>太阳系模拟器</h2>
+            <p>点击任意行星可查看详细信息</p>
+            <div class="simulator-container">
+                <canvas id="solarSystemCanvas" width="800" height="600"></canvas>
+            </div>
+        </section>
+
+        <section id="planets">
+            <h2>太阳系行星</h2>
+            <div class="planets-grid">
+                <div class="planet-card">
+                    <img src="https://tse4-mm.cn.bing.net/th/id/OIP-C.Xdn8BDPwgNwxQtafVQBnxgHaGh?rs=1&pid=ImgDetMain" alt="水星">
+                    <div class="planet-info">
+                        <h3>水星</h3>
+                        <p>太阳系中最小的行星，也是离太阳最近的行星。</p>
+                        <div class="planet-stats">
+                            <span>直径: 4,880 km</span>
+                            <span>轨道周期: 88 天</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="planet-card">
+                    <img src="https://p1.ssl.qhimg.com/t013f5229b3141c0103.jpg" alt="金星">
+                    <div class="planet-info">
+                        <h3>金星</h3>
+                        <p>太阳系中最热的行星，被称为地球的"姐妹行星"。</p>
+                        <div class="planet-stats">
+                            <span>直径: 12,104 km</span>
+                            <span>轨道周期: 225 天</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="planet-card">
+                    <img src="https://tse4-mm.cn.bing.net/th/id/OIP-C.u0FZUFtK4gdhTQV1kIAwGgHaHa?rs=1&pid=ImgDetMain" alt="地球">
+                    <div class="planet-info">
+                        <h3>地球</h3>
+                        <p>我们美丽的家园，已知唯一有生命存在的行星。</p>
+                        <div class="planet-stats">
+                            <span>直径: 12,742 km</span>
+                            <span>轨道周期: 365.25 天</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="planet-card">
+                    <img src="https://pic.ntimg.cn/file/20220527/5225224_120815823127_2.jpg" alt="火星">
+                    <div class="planet-info">
+                        <h3>火星</h3>
+                        <p>红色行星，太阳系中与地球最相似的行星。</p>
+                        <div class="planet-stats">
+                            <span>直径: 6,779 km</span>
+                            <span>轨道周期: 687 天</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="planet-card">
+                    <img src="https://ts1.tc.mm.bing.net/th/id/R-C.11d53c7b00595f8298d7e7eb2c5a9e93?rik=bIfDVo%2b845Sx6Q&riu=http%3a%2f%2fx0.ifengimg.com%2fres%2f2019%2f8156C93F82F8D716435873DAA21FE22F778797FB_size73_w1080_h1035.jpeg&ehk=%2fBHYmCAFbIKPz7GdsBcFZBRdeOJGC%2bCRg4Up34kktr4%3d&risl=&pid=ImgRaw&r=0" alt="木星">
+                    <div class="planet-info">
+                        <h3>木星</h3>
+                        <p>太阳系中最大的行星，拥有著名的大红斑风暴。</p>
+                        <div class="planet-stats">
+                            <span>直径: 139,820 km</span>
+                            <span>轨道周期: 12 年</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="planet-card">
+                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.3tUWPKNGBNsiaFLh9L9_JQHaE8?w=268&h=180&c=7&r=0&o=5&dpr=1.8&pid=1.7" alt="土星">
+                    <div class="planet-info">
+                        <h3>土星</h3>
+                        <p>以其壮观的环系闻名，是太阳系第二大行星。</p>
+                        <div class="planet-stats">
+                            <span>直径: 116,460 km</span>
+                            <span>轨道周期: 29 年</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="planet-card">
+                    <img src="https://tse1-mm.cn.bing.net/th/id/OIP-C.LQfLouAEuv9MTnB-m0Eu7QHaHi?rs=1&pid=ImgDetMain" alt="天王星">
+                    <div class="planet-info">
+                        <h3>天王星</h3>
+                        <p>独特的侧向自转行星，主要由冰和气体组成。</p>
+                        <div class="planet-stats">
+                            <span>直径: 50,724 km</span>
+                            <span>轨道周期: 84 年</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="planet-card">
+                    <img src="https://p1.ssl.qhimg.com/t018351581588093efd.jpg" alt="海王星">
+                    <div class="planet-info">
+                        <h3>海王星</h3>
+                        <p>太阳系最外围的行星，风速可达2100 km/h。</p>
+                        <div class="planet-stats">
+                            <span>直径: 49,244 km</span>
+                            <span>轨道周期: 165 年</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sun" class="feature-section">
+            <div class="feature-text">
+                <h2>太阳 - 我们的恒星</h2>
+                <p>太阳是太阳系的中心天体，占据了太阳系总质量的99.86%。它是一个近乎完美的热等离子体球体，通过核聚变反应将氢转化为氦，释放出巨大的能量。</p>
+                <p>太阳的直径约为1,392,700公里，是地球直径的109倍。它的表面温度约为5,500°C，而核心温度则高达1500万°C。</p>
+            </div>
+            <div class="feature-image">
+                <img src="https://cdn.pixabay.com/photo/2012/01/09/09/10/sun-11582_1280.jpg" alt="太阳">
+            </div>
+        </section>
+
+        <section id="moons" class="feature-section">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="木星卫星">
+            </div>
+            <div class="feature-text">
+                <h2>迷人的卫星世界</h2>
+                <p>太阳系中有数百颗已知的天然卫星，从火星的小卫星火卫一和火卫二，到木星的伽利略卫星（木卫一至木卫四），再到土星拥有复杂环系的土卫六泰坦。</p>
+                <p>地球的卫星月球是太阳系中相对于其主行星最大的卫星之一，对地球的潮汐和气候有重要影响。</p>
+            </div>
+        </section>
+
+        <section id="asteroids">
+            <h2>小行星带与柯伊伯带</h2>
+            <p>火星和木星之间的小行星带包含数百万个岩石天体，最大的谷神星现在被归类为矮行星。在海王星轨道之外是柯伊伯带，这里是短周期彗星的来源地，也包含冥王星等矮行星。</p>
+        </section>
+
+        <section id="missions" class="feature-section">
+            <div class="feature-text">
+                <h2>探索太阳系的太空任务</h2>
+                <p>从20世纪50年代开始，人类已经向太阳系的各个天体发射了数百个探测器。著名的任务包括：</p>
+                <ul>
+                    <li>旅行者1号和2号 - 已进入星际空间</li>
+                    <li>好奇号火星车 - 探索火星表面</li>
+                    <li>卡西尼-惠更斯号 - 研究土星及其卫星</li>
+                    <li>朱诺号 - 正在研究木星</li>
+                </ul>
+            </div>
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="太空探测器">
+            </div>
+        </section>
+
+        <section class="newsletter">
+            <h3>订阅我们的太空通讯</h3>
+            <p>获取最新的天文发现和太空任务更新</p>
+            <form>
+                <input type="email" placeholder="输入您的电子邮箱">
+                <button type="submit">订阅</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 太阳系探索者 | 所有图片来自NASA和公开资源</p>
+        <p>本网站仅供教育用途</p>
+    </footer>
+
+<script>
+        const canvas = document.getElementById('solarSystemCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Adjust canvas size for mobile devices
+        function resizeCanvas() {
+            if (window.innerWidth <= 768) {
+                canvas.width = window.innerWidth * 0.95;  // 增大画布宽度占比
+                canvas.height = canvas.width * 0.8;     // 调整高度比例
+            } else {
+                canvas.width = 900;  // 增大桌面端画布宽度
+                canvas.height = 700; // 增大桌面端画布高度
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const images = {
+            sun: new Image(),
+            mercury: new Image(),
+            venus: new Image(),
+            earth: new Image(),
+            moon: new Image(),
+            mars: new Image(),
+            jupiter: new Image(),
+            saturn: new Image(),
+            uranus: new Image(),
+            neptune: new Image()
+        };
+
+        images.sun.src = 'https://img.alicdn.com/imgextra/i1/O1CN01oVLbLx22VlN34KDQs_!!6000000007126-2-tps-800-800.png';
+        images.mercury.src = 'https://img.alicdn.com/imgextra/i2/O1CN01UjgqIB1SrRxQfrflh_!!6000000002300-2-tps-800-800.png';
+        images.venus.src = 'https://img.alicdn.com/imgextra/i3/O1CN01JGEgLU1dfxnVvp91R_!!6000000003764-2-tps-800-800.png';
+        images.earth.src = 'https://img.alicdn.com/imgextra/i4/O1CN01R6wlzD1IhhMlBcGLg_!!6000000000925-2-tps-800-800.png';
+        images.moon.src = 'https://img.alicdn.com/imgextra/i4/O1CN01Ad5SeB20tv1nfRoA2_!!6000000006908-2-tps-800-800.png';
+        images.mars.src = 'https://img.alicdn.com/imgextra/i1/O1CN01OlZAk81OVEHJ0pazq_!!6000000001710-2-tps-800-800.png';
+        images.jupiter.src = 'https://img.alicdn.com/imgextra/i2/O1CN01MA3Mk51bAhWxWxHim_!!6000000003425-2-tps-800-800.png';
+        images.saturn.src = 'https://img.alicdn.com/imgextra/i2/O1CN01NG2FjS1XDDEofNNhg_!!6000000002889-2-tps-800-800.png';
+        images.uranus.src = 'https://img.alicdn.com/imgextra/i1/O1CN01wnxTX51xIPkTHqPBr_!!6000000006420-2-tps-800-800.png';
+        images.neptune.src = 'https://img.alicdn.com/imgextra/i1/O1CN01LTf0rT25zwJWsIDkD_!!6000000007598-2-tps-800-800.png';
+
+        const stars = [];
+        for (let i = 0; i < 250; i++) {  // 增加星星数量
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 0.8 + 0.5,  // 增大星星大小
+                opacity: Math.random() * 0.7 + 0.3  // 提高星星亮度
+            });
+        }
+
+        let angle = 0;
+
+        function drawBackground() {
+            const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 1.5);  // 扩大背景渐变范围
+            gradient.addColorStop(0, '#1C2837');
+            gradient.addColorStop(1, '#050608');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = 'white';
+            stars.forEach(star => {
+                ctx.globalAlpha = star.opacity;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+        }
+
+        function drawOrbit(x, y, radius) {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';  // 提高轨道可见度
+            ctx.setLineDash([2, 2]);
+            ctx.lineWidth = 1.5;  // 加粗轨道线
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        function drawImage(image, x, y, scale) {
+            if (image.complete) {
+                ctx.drawImage(image, x - image.width * scale / 2, y - image.height * scale / 2, image.width * scale, image.height * scale);
+            }
+        }
+
+        function drawSolarSystem() {
+            drawBackground();
+
+            // 增大基础半径和行星大小
+            const baseRadius = Math.min(canvas.width, canvas.height) * 0.5;  // 从0.4增加到0.5
+            const sunScale = 0.12 * (canvas.width / 900);  // 从0.08增加到0.12
+
+            drawOrbit(canvas.width / 2, canvas.height / 2, baseRadius * 0.2);
+            drawImage(images.sun, canvas.width / 2, canvas.height / 2, sunScale);
+
+            // 增大所有行星的大小比例
+            const planets = [
+                { img: images.mercury, radius: baseRadius * 0.25, speed: 0.034, scale: 0.015 * (canvas.width / 900), name: '水星', description: '太阳系中最小的行星，也是离太阳最近的行星。', src: images.mercury.src },
+                { img: images.venus, radius: baseRadius * 0.35, speed: 0.0178, scale: 0.022 * (canvas.width / 900), name: '金星', description: '太阳系中最热的行星，被称为地球的"姐妹行星"。', src: images.venus.src },
+                { img: images.earth, radius: baseRadius * 0.45, speed: 0.011, scale: 0.025 * (canvas.width / 900), name: '地球', description: '我们美丽的家园，已知唯一有生命存在的行星。', src: images.earth.src },
+                { img: images.mars, radius: baseRadius * 0.55, speed: 0.0058, scale: 0.02 * (canvas.width / 900), name: '火星', description: '红色行星，太阳系中与地球最相似的行星。', src: images.mars.src },
+                { img: images.jupiter, radius: baseRadius * 0.65, speed: 0.0023, scale: 0.04 * (canvas.width / 900), name: '木星', description: '太阳系中最大的行星，拥有著名的大红斑风暴。', src: images.jupiter.src },
+                { img: images.saturn, radius: baseRadius * 0.75, speed: 0.001, scale: 0.05 * (canvas.width / 900), name: '土星', description: '以其壮观的环系闻名，是太阳系第二大行星。', src: images.saturn.src },
+                { img: images.uranus, radius: baseRadius * 0.85, speed: 0.00033, scale: 0.03 * (canvas.width / 900), name: '天王星', description: '独特的侧向自转行星，主要由冰和气体组成。', src: images.uranus.src },
+                { img: images.neptune, radius: baseRadius * 0.95, speed: 0.00017, scale: 0.03 * (canvas.width / 900), name: '海王星', description: '太阳系最外围的行星，风速可达2100 km/h。', src: images.neptune.src }
+            ];
+
+            planets.forEach((planet, index) => {
+                drawOrbit(canvas.width / 2, canvas.height / 2, planet.radius);
+                const planetX = canvas.width / 2 + planet.radius * Math.cos(angle * planet.speed);
+                const planetY = canvas.height / 2 + planet.radius * Math.sin(angle * planet.speed);
+
+                drawImage(planet.img, planetX, planetY, planet.scale);
+
+                if (index === 2) { // Earth's moon
+                    const moonSpeed = 0.022;
+                    const moonX = planetX + 20 * Math.cos(angle * moonSpeed);  // 增大月球轨道
+                    const moonY = planetY + 20 * Math.sin(angle * moonSpeed);
+                    drawImage(images.moon, moonX, moonY, 0.015 * (canvas.width / 900));  // 增大月球大小
+                }
+            });
+
+            angle += 0.05;
+            requestAnimationFrame(drawSolarSystem);
+        }
+
+        // 其余代码保持不变...
+        function checkClick(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+
+            const baseRadius = Math.min(canvas.width, canvas.height) * 0.5;  // 同步更新这里的半径
+
+            const planets = [
+                { img: images.mercury, radius: baseRadius * 0.25, speed: 0.034, scale: 0.015 * (canvas.width / 900), name: '水星', description: '太阳系中最小的行星，也是离太阳最近的行星。', src: images.mercury.src },
+                { img: images.venus, radius: baseRadius * 0.35, speed: 0.0178, scale: 0.022 * (canvas.width / 900), name: '金星', description: '太阳系中最热的行星，被称为地球的"姐妹行星"。', src: images.venus.src },
+                { img: images.earth, radius: baseRadius * 0.45, speed: 0.011, scale: 0.025 * (canvas.width / 900), name: '地球', description: '我们美丽的家园，已知唯一有生命存在的行星。', src: images.earth.src },
+                { img: images.mars, radius: baseRadius * 0.55, speed: 0.0058, scale: 0.02 * (canvas.width / 900), name: '火星', description: '红色行星，太阳系中与地球最相似的行星。', src: images.mars.src },
+                { img: images.jupiter, radius: baseRadius * 0.65, speed: 0.0023, scale: 0.04 * (canvas.width / 900), name: '木星', description: '太阳系中最大的行星，拥有著名的大红斑风暴。', src: images.jupiter.src },
+                { img: images.saturn, radius: baseRadius * 0.75, speed: 0.001, scale: 0.05 * (canvas.width / 900), name: '土星', description: '以其壮观的环系闻名，是太阳系第二大行星。', src: images.saturn.src },
+                { img: images.uranus, radius: baseRadius * 0.85, speed: 0.00033, scale: 0.03 * (canvas.width / 900), name: '天王星', description: '独特的侧向自转行星，主要由冰和气体组成。', src: images.uranus.src },
+                { img: images.neptune, radius: baseRadius * 0.95, speed: 0.00017, scale: 0.03 * (canvas.width / 900), name: '海王星', description: '太阳系最外围的行星，风速可达2100 km/h。', src: images.neptune.src }
+            ];
+
+            planets.forEach(planet => {
+                const planetX = canvas.width / 2 + planet.radius * Math.cos(angle * planet.speed);
+                const planetY = canvas.height / 2 + planet.radius * Math.sin(angle * planet.speed);
+                const distance = Math.sqrt(Math.pow(mouseX - planetX, 2) + Math.pow(mouseY - planetY, 2));
+
+                if (distance <= planet.img.width * planet.scale / 2) {
+                    showPlanetModal(planet);
+                    return;
+                }
+            });
+        }
+
+        // showPlanetModal 函数保持不变...
+        function showPlanetModal(planet) {
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.9)';  // 加深背景
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+
+            const modalContent = document.createElement('div');
+            modalContent.style.backgroundColor = '#0b3d91';
+            modalContent.style.padding = '2.5rem';  // 增加内边距
+            modalContent.style.borderRadius = '10px';
+            modalContent.style.maxWidth = '650px';  // 增大模态框宽度
+            modalContent.style.width = '90%';
+            modalContent.style.position = 'relative';
+
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = '×';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.top = '15px';
+            closeBtn.style.right = '15px';
+            closeBtn.style.background = 'none';
+            closeBtn.style.border = 'none';
+            closeBtn.style.color = 'white';
+            closeBtn.style.fontSize = '2rem';
+            closeBtn.style.cursor = 'pointer';
+
+            const planetImg = document.createElement('img');
+            planetImg.src = planet.src;
+            planetImg.style.width = '100%';
+            planetImg.style.height = 'auto';
+            planetImg.style.borderRadius = '10px';
+            planetImg.style.marginBottom = '1.5rem';
+            planetImg.style.border = '2px solid #f5d76e';
+
+            const planetName = document.createElement('h3');
+            planetName.textContent = planet.name;
+            planetName.style.color = '#f5d76e';
+            planetName.style.fontSize = '2.2rem';
+            planetName.style.marginBottom = '1.2rem';
+            planetName.style.textAlign = 'center';
+
+            const planetDesc = document.createElement('p');
+            planetDesc.textContent = planet.description;
+            planetDesc.style.marginBottom = '1.5rem';
+            planetDesc.style.fontSize = '1.1rem';
+            planetDesc.style.lineHeight = '1.7';
+
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+
+            modalContent.appendChild(closeBtn);
+            modalContent.appendChild(planetImg);
+            modalContent.appendChild(planetName);
+            modalContent.appendChild(planetDesc);
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+        }
+
+        canvas.addEventListener('click', checkClick);
+
+        Object.values(images).forEach(img => img.onload = () => {
+            if (Object.values(images).every(img => img.complete)) {
+                drawSolarSystem();
+            }
+        });
+    </script>
+</body>
+</html>
